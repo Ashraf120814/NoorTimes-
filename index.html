@@ -621,68 +621,235 @@ const dhikrs=[
 // ============ HIJRI ============
 // ============ ISLAMIC EVENTS DATABASE ============
 const ISLAMIC_EVENTS={
-  "1-1":{name:"Islamic New Year",arabic:"رأس السنة الهجرية",emoji:"🌙",
-    desc:"The first day of Muharram marks the beginning of the Islamic Hijri calendar year. It commemorates the Hijra (migration) of Prophet Muhammad ﷺ from Makkah to Madinah in 622 CE, a pivotal moment that transformed the Muslim community.",
-    hadith:"The Prophet ﷺ said: 'The best fasting after Ramadan is fasting in Allah's month of Muharram.'",hadithSrc:"Sahih Muslim 1163",
-    acts:["Reflect on the past year","Set spiritual goals","Voluntary fasting","Extra Dhikr","Recite Dua for new year"]},
-  "1-9":{name:"Tasua",arabic:"تاسوعاء",emoji:"📿",
-    desc:"The 9th of Muharram, known as Tasua. The Prophet ﷺ intended to fast on this day along with Ashura to distinguish Muslim practice from that of others. It is highly recommended to fast on this day alongside Ashura.",
-    hadith:"The Prophet ﷺ said: 'If I live until next year, I will fast the 9th (of Muharram) as well.'",hadithSrc:"Sahih Muslim 1134",
-    acts:["Fast on this day","Combined fasting with Ashura (9th & 10th)","Extra prayers","Remembrance of Allah"]},
-  "1-10":{name:"Ashura",arabic:"عاشوراء",emoji:"⭐",
-    desc:"The 10th of Muharram is one of the most sacred days in the Islamic calendar. Allah saved Prophet Musa (Moses) ﷺ and the Children of Israel from Pharaoh on this day. Fasting on Ashura expiates the sins of the previous year.",
-    hadith:"The Prophet ﷺ said: 'Fasting on the day of Ashura, I hope that Allah will accept it as expiation for the year that went before.'",hadithSrc:"Sahih Muslim 1162",
-    acts:["Fast on this day","Fast on 9th also (Tasua)","Give in charity","Be generous to family","Extra prayers & Dhikr"]},
-  "3-12":{name:"Mawlid al-Nabi ﷺ",arabic:"المولد النبوي الشريف",emoji:"🌹",
-    desc:"The 12th of Rabi al-Awwal is widely observed as the birth anniversary of Prophet Muhammad ﷺ (born 570 CE). Muslims around the world mark this occasion by increasing blessings upon the Prophet ﷺ, gathering for lectures, and reflecting on his noble character and Sunnah.",
-    hadith:"The Prophet ﷺ said: 'None of you believes until I am more beloved to him than his father, his son, and all people.'",hadithSrc:"Sahih Bukhari 15",
-    acts:["Send abundant Salawat on the Prophet ﷺ","Read his biography (Seerah)","Follow his Sunnah","Gather for remembrance","Give in charity"]},
-  "7-27":{name:"Isra wal Miraj",arabic:"الإسراء والمعراج",emoji:"🌠",
-    desc:"The Night Journey and Ascension of Prophet Muhammad ﷺ. Allah took the Prophet ﷺ from Masjid al-Haram in Makkah to Masjid al-Aqsa in Jerusalem, and then ascended through the heavens. The 5 daily prayers were made obligatory on this miraculous night.",
-    hadith:"Glory be to He Who took His servant by night from Masjid al-Haram to Masjid al-Aqsa, whose surroundings We have blessed.",hadithSrc:"Quran 17:1",
-    acts:["Night prayers (Qiyam)","Reflect on the 5 daily prayers","Read about the Miraj","Extra Salawat on the Prophet ﷺ","Fast during the day"]},
-  "8-15":{name:"Shab e Barat",arabic:"شبِ برات",emoji:"✨",
-    desc:"The 15th night of Sha'ban is known as the Night of Forgiveness or Laylat al-Bara'ah. Many scholars hold that Allah's mercy descends abundantly on this night and sins are forgiven for those who sincerely seek repentance.",
-    hadith:"Allah descends to the lowest heaven on the 15th night of Sha'ban and forgives more people than the hairs on the sheep of Banu Kalb.",hadithSrc:"Sunan Ibn Majah 1389",
-    acts:["Night prayers & Tahajjud","Seek forgiveness (Istighfar)","Fast on 15th Sha'ban","Recite Quran","Visit graves to make dua"]},
-  "9-1":{name:"Ramadan Begins",arabic:"بداية رمضان",emoji:"🌙",
-    desc:"The blessed month of Ramadan commences — the month in which the Holy Quran was revealed. Muslims worldwide observe fasting from Fajr to Maghrib, intensify worship, recite Quran, and perform Taraweeh prayers throughout this month.",
-    hadith:"When Ramadan enters, the gates of Paradise are opened, the gates of Hellfire are closed, and the devils are chained.",hadithSrc:"Sahih Bukhari 1899",
-    acts:["Fasting (Sawm)","Taraweeh prayers","Increased Quran recitation","Charity (Sadaqah)","Laylat al-Qadr in last 10 nights","I'tikaf"]},
-  "9-27":{name:"Laylat al-Qadr",arabic:"ليلة القدر",emoji:"🌟",
-    desc:"The Night of Power (Laylat al-Qadr) is the most blessed night of the year, believed to fall on one of the odd nights of the last 10 days of Ramadan, most likely the 27th. Worship on this single night is better than 1,000 months of worship.",
-    hadith:"We have indeed revealed this in the Night of Power. And what will explain to you what the Night of Power is? The Night of Power is better than a thousand months.",hadithSrc:"Quran 97:1-3",
-    acts:["All-night prayer (Qiyam)","Recite Quran extensively","Make abundant Dua","Dua: Allahumma innaka Afuwwun tuhibbul afwa fa'fu anni","Seek forgiveness","Give charity"]},
-  "10-1":{name:"Eid al-Fitr",arabic:"عيد الفطر",emoji:"🎉",
-    desc:"The Festival of Breaking the Fast! Eid al-Fitr marks the end of Ramadan. Muslims celebrate with Eid prayers, pay Zakat al-Fitr before the prayer, visit family and friends, wear new clothes, and share joy and happiness together.",
-    hadith:"The Prophet ﷺ said: 'The day of Eid al-Fitr is the day when you break your fast. Your Eid al-Adha is the day you offer your sacrifice.'",hadithSrc:"Sunan al-Tirmidhi 802",
-    acts:["Ghusl & wear best clothes","Pay Zakat al-Fitr before prayer","Attend Eid prayer","Eat before going to prayer","Congratulate others","Visit family","Give gifts to children"]},
-  "12-8":{name:"Day of Tarwiyah",arabic:"يوم التروية",emoji:"🕋",
-    desc:"The 8th of Dhul Hijjah is the Day of Tarwiyah, when Hajj pilgrims move from Makkah to Mina to begin the rites of Hajj. For non-pilgrims, fasting during the first 9 days of Dhul Hijjah is highly recommended.",
-    hadith:"The Prophet ﷺ said: 'There are no days on which righteous deeds are more beloved to Allah than these ten days (of Dhul Hijjah).'",hadithSrc:"Sahih Bukhari 969",
-    acts:["Fast if possible (non-pilgrims)","Extra Dhikr & Takbir","Give charity","Prepare for Eid al-Adha","Remember the pilgrims in Dua"]},
-  "12-9":{name:"Day of Arafah",arabic:"يوم عرفة",emoji:"⛰️",
-    desc:"The 9th of Dhul Hijjah — the most important day of Hajj and one of the greatest days of the Islamic year. Pilgrims stand on the plain of Arafah in supplication. Fasting on this day for non-pilgrims expiates two years of sins.",
-    hadith:"Fasting on the Day of Arafah I hope that Allah will accept it as expiation for the year that went before and the year that comes after.",hadithSrc:"Sahih Muslim 1162",
-    acts:["Fast (highly recommended for non-pilgrims)","Make abundant Dua","Dua: La ilaha illallah wahdahu la sharika lah","Dhikr & Takbir","Seek forgiveness"]},
-  "12-10":{name:"Eid al-Adha",arabic:"عيد الأضحى",emoji:"🐑",
-    desc:"The Festival of Sacrifice commemorates Prophet Ibrahim's ﷺ willingness to sacrifice his son Ismail ﷺ as an act of obedience to Allah. Muslims who can afford it perform Qurbani (sacrifice of an animal) and distribute the meat to family, neighbours, and the poor.",
-    hadith:"The Prophet ﷺ said: 'The greatest day in the sight of Allah is the Day of Sacrifice, then the day of al-Qarr (11th Dhul Hijjah).'",hadithSrc:"Sunan Abu Dawud 1765",
-    acts:["Attend Eid prayer","Perform Qurbani","Distribute meat to poor","Wear best clothes","Congratulate others","Visit relatives","Takbir: Allahu Akbar Allahu Akbar..."]},
-  "12-11":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
-    desc:"The 11th, 12th, and 13th of Dhul Hijjah are the Days of Tashreeq. These are days of eating, drinking, and remembering Allah. Pilgrims continue the rites of Hajj in Mina. Takbir is recited abundantly during these days.",
-    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
-    acts:["Recite Takbir abundantly","Complete Qurbani distribution","Eat & celebrate (fasting is forbidden)","Remember Allah","Complete Hajj rites (pilgrims)"]},
-  "12-12":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
-    desc:"Second of the Days of Tashreeq. These blessed days follow Eid al-Adha and are a continuation of the celebration while remembering Allah abundantly.",
-    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
-    acts:["Recite Takbir","Continue charity","Remember Allah","Complete Hajj rites (pilgrims)"]},
-  "12-13":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
-    desc:"Third and final Day of Tashreeq. The blessed days of Eid al-Adha conclude. Pilgrims complete the final rites of Hajj.",
-    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
-    acts:["Final Takbir of Eid season","Give remaining Qurbani","Make Dua","Reflect on spiritual growth"]},
-};
 
+/* ====== MUHARRAM (Month 1) ====== */
+"1-1":{name:"Islamic New Year",arabic:"رأس السنة الهجرية",emoji:"🌙",
+  desc:"The 1st of Muharram marks the start of the Islamic Hijri calendar year, commemorating the Hijra of Prophet Muhammad ﷺ from Makkah to Madinah in 622 CE. It was Caliph Umar ibn al-Khattab ؓ who established the Hijri calendar, taking the migration as the landmark year. Muharram is one of the four sacred months in Islam in which warfare was traditionally forbidden.",
+  hadith:"The best fasting after Ramadan is fasting in Allah's month of Muharram, and the best prayer after the obligatory prayer is the night prayer.",hadithSrc:"Sahih Muslim 1163",
+  acts:["Voluntary fasting","Reflect & make new spiritual goals","Extra Dhikr","Recite Dua for new year","Give Sadaqah"]},
+
+"1-9":{name:"Tasua",arabic:"تاسوعاء",emoji:"📿",
+  desc:"The 9th of Muharram, known as Tasua. When the Prophet ﷺ arrived in Madinah and saw the Jews fasting on Ashura, he intended to fast on the 9th as well to differentiate Muslim practice. He passed away before the next year came, but scholars strongly recommend fasting on Tasua alongside Ashura.",
+  hadith:"If I live until next year, I will certainly fast the ninth (of Muharram) as well.",hadithSrc:"Sahih Muslim 1134",
+  acts:["Fast on this day (Sunnah)","Combine with Ashura fast","Extra Dhikr & Salawat","Night prayer (Tahajjud)"]},
+
+"1-10":{name:"Day of Ashura",arabic:"يوم عاشوراء",emoji:"⭐",
+  desc:"The 10th of Muharram is one of the most sacred days of the Islamic year. On this day: (1) Allah saved Prophet Musa ﷺ and the Children of Israel from Pharaoh by parting the Red Sea. (2) Prophet Nuh's ﷺ ark came to rest. (3) The Prophet ﷺ found the Jews of Madinah fasting and was told of its significance, after which he also fasted and commanded Muslims to fast. Fasting on Ashura expiates the sins of the previous year.",
+  hadith:"Fasting on the day of Ashura — I hope that Allah will accept it as expiation for the year that went before.",hadithSrc:"Sahih Muslim 1162",
+  acts:["Fast on 9th & 10th (Tasua + Ashura)","Give generously to family","Give Sadaqah","Extra prayers & Dhikr","Seek forgiveness"]},
+
+"1-20":{name:"Martyrdom: Husayn ibn Ali ؓ",arabic:"استشهاد الحسين ؓ",emoji:"🕊️",
+  desc:"The Battle of Karbala took place on the 10th of Muharram 61 AH (680 CE), in which Husayn ibn Ali ؓ, the grandson of Prophet Muhammad ﷺ, was martyred along with his companions. This is a deeply significant event in Islamic history. Muslims reflect on the sacrifice and the importance of standing for truth and justice.",
+  hadith:"Husayn is from me and I am from Husayn. Allah loves whoever loves Husayn.",hadithSrc:"Sunan Ibn Majah 144",
+  acts:["Reflect on the lessons of Karbala","Stand for truth and justice","Extra Salawat on the Prophet ﷺ and his family","Seek knowledge of Islamic history"]},
+
+/* ====== SAFAR (Month 2) ====== */
+"2-1":{name:"Month of Safar Begins",arabic:"شهر صفر",emoji:"📅",
+  desc:"Safar is the second month of the Islamic calendar. During the pre-Islamic era, Arabs held superstitions about Safar being an unlucky month. The Prophet ﷺ categorically rejected these superstitions. There are no authentic reports of special fasts or prayers specifically for Safar.",
+  hadith:"There is no Adwa (no contagious disease without Allah's permission), no Tiyarah (no evil omen from birds), no Haamah (no omens from owls), and no Safar (no bad luck in the month of Safar).",hadithSrc:"Sahih Bukhari 5757",
+  acts:["Reject superstitions","Trust in Allah (Tawakkul)","Regular worship","Seek Islamic knowledge"]},
+
+"2-28":{name:"Battle of Khaybar",arabic:"غزوة خيبر",emoji:"⚔️",
+  desc:"The Battle of Khaybar took place in 7 AH when the Muslim army, led by Prophet Muhammad ﷺ, conquered the Jewish fortress of Khaybar. A notable event of this battle was that the Prophet ﷺ gave the flag to Ali ibn Abi Talib ؓ, saying he was a man who loves Allah and His Messenger.",
+  hadith:"Tomorrow I will give the flag to a man who loves Allah and His Messenger, and Allah and His Messenger love him — through whose hands Allah will grant victory.",hadithSrc:"Sahih Bukhari 2942",
+  acts:["Study Islamic history","Reflect on trust in Allah","Dua for Muslim unity"]},
+
+/* ====== RABI AL-AWWAL (Month 3) ====== */
+"3-1":{name:"Month of the Prophet's ﷺ Birth",arabic:"شهر المولد",emoji:"🌹",
+  desc:"Rabi al-Awwal is the month in which Prophet Muhammad ﷺ was born. It is a month of great blessings. Muslims increase Salawat (blessings) upon the Prophet ﷺ throughout this month and study his blessed Seerah (biography).",
+  hadith:"None of you believes until I am more beloved to him than his father, his son, and all people.",hadithSrc:"Sahih Bukhari 15",
+  acts:["Increase Salawat on the Prophet ﷺ","Read his Seerah","Follow his Sunnah","Teach children about the Prophet ﷺ"]},
+
+"3-8":{name:"Passing of Khadijah al-Kubra ؓ",arabic:"وفاة أم المؤمنين خديجة ؓ",emoji:"🌹",
+  desc:"Khadijah bint Khuwaylid ؓ, the first wife of Prophet Muhammad ﷺ and the first person to accept Islam, passed away in the Year of Grief (10th year before Hijra). She was the greatest support to the Prophet ﷺ and is one of the four greatest women in all of history.",
+  hadith:"The Prophet ﷺ said about Khadijah: 'She believed in me when people disbelieved me, she trusted me when people belied me, she supported me with her wealth when people deprived me, and Allah gave me children through her.'",hadithSrc:"Musnad Ahmad 24864",
+  acts:["Learn about Mother Khadijah ؓ","Appreciate supportive family","Reflect on sacrifices for Islam"]},
+
+"3-12":{name:"Birth of Prophet Muhammad ﷺ",arabic:"المولد النبوي الشريف",emoji:"🌟",
+  desc:"The 12th of Rabi al-Awwal is widely observed as the birth of Prophet Muhammad ﷺ (c. 570 CE, Year of the Elephant) in Makkah al-Mukarramah. He is the Seal of all Prophets and the greatest human being to ever walk the earth. Allah sent him as a mercy to all the worlds.",
+  hadith:"Say: 'If you love Allah, then follow me — Allah will love you and forgive your sins.'",hadithSrc:"Quran 3:31",
+  acts:["Send abundant Salawat ﷺ","Read his biography (Seerah)","Teach children about his noble character","Recite nasheeds in his praise","Give charity in his honor"]},
+
+"3-17":{name:"Battle of Badr",arabic:"غزوة بدر الكبرى",emoji:"⚔️",
+  desc:"The Battle of Badr (17 Ramadan 2 AH) — though occurring in Ramadan, it is commemorated here as a major Seerah milestone. 313 poorly-equipped Muslims defeated an army of 1,000 Quraysh. Allah sent angels to assist the believers. This was Islam's first major military victory.",
+  hadith:"O Allah, if this small band perishes today, You will not be worshipped on earth.",hadithSrc:"Sahih Muslim 1763 (Dua of the Prophet ﷺ at Badr)",
+  acts:["Study the Battle of Badr","Reflect on Tawakkul","Remember Allah's help comes with trust","Dua for Muslim unity"]},
+
+/* ====== RABI AL-THANI (Month 4) ====== */
+"4-11":{name:"Urs of Ghawth al-Azam",arabic:"عرس الشيخ عبد القادر الجيلاني",emoji:"🌹",
+  desc:"The 11th of Rabi al-Thani marks the anniversary of the passing of Shaykh Abd al-Qadir al-Jilani (1077–1166 CE), known as Ghawth al-Azam. He was one of the greatest Sufi saints and scholars of Islam, founder of the Qadiri order, known for his extraordinary piety and knowledge.",
+  hadith:"Allah does not take away knowledge by taking it from the hearts of the scholars, but rather He takes away knowledge by taking away the scholars.",hadithSrc:"Sahih Bukhari 100",
+  acts:["Remember righteous scholars","Seek Islamic knowledge","Recite Quran & Fatiha","Give Sadaqah"]},
+
+/* ====== JUMADA AL-ULA (Month 5) ====== */
+"5-5":{name:"Birth of Fatimah al-Zahra ؓ",arabic:"ولادة السيدة فاطمة الزهراء ؓ",emoji:"🌸",
+  desc:"Fatimah bint Muhammad ؓ, the beloved daughter of Prophet Muhammad ﷺ and Khadijah ؓ, is one of the four greatest women in Islamic history. She was known for her immense piety, love of Allah, and closeness to her father. The Prophet ﷺ called her 'the leader of the women of Paradise.'",
+  hadith:"Fatimah is a part of me. Whoever angers her angers me.",hadithSrc:"Sahih Bukhari 3767",
+  acts:["Learn about Fatimah al-Zahra ؓ","Honour women in Islam","Send Salawat on the Prophet ﷺ","Reflect on family values in Islam"]},
+
+/* ====== JUMADA AL-AKHIRAH (Month 6) ====== */
+"6-20":{name:"Battle of Mu'tah",arabic:"غزوة مؤتة",emoji:"⚔️",
+  desc:"The Battle of Mu'tah (8 AH) was the first major confrontation between Muslims and the Byzantine Empire. Three commanders were martyred: Zayd ibn Haritha ؓ, Jafar ibn Abi Talib ؓ, and Abdullah ibn Rawahah ؓ. Khalid ibn al-Walid ؓ then took command and led a strategic withdrawal.",
+  hadith:"The Prophet ﷺ said about Jafar ibn Abi Talib: 'I saw Jafar flying in Paradise with two wings stained with blood.'",hadithSrc:"Sunan al-Tirmidhi 3763",
+  acts:["Pray for the Muslim martyrs","Study Islamic history","Reflect on sacrifice for Islam"]},
+
+/* ====== RAJAB (Month 7) ====== */
+"7-1":{name:"Sacred Month of Rajab Begins",arabic:"دخول شهر رجب",emoji:"🕌",
+  desc:"Rajab is one of the four sacred (Haram) months in Islam: Muharram, Rajab, Dhul Qa'dah, and Dhul Hijjah. Allah prohibits wrongdoing especially in these months. It is a time to increase worship and prepare spiritually for the coming months of Sha'ban and Ramadan.",
+  hadith:"Indeed, the number of months with Allah is twelve months in the Book of Allah from the day He created the heavens and the earth; of these, four are sacred.",hadithSrc:"Quran 9:36",
+  acts:["Increase voluntary fasting","Extra Dhikr & Istighfar","Prepare heart for Ramadan","Study Quran","Give Sadaqah"]},
+
+"7-13":{name:"Birth of Ali ibn Abi Talib ؓ",arabic:"ولادة الإمام علي ؓ",emoji:"🌟",
+  desc:"Ali ibn Abi Talib ؓ was the cousin and son-in-law of Prophet Muhammad ﷺ, the first youth to accept Islam, and the fourth Rightly-Guided Caliph. He is renowned for his knowledge, bravery, and piety. The Prophet ﷺ said he was the gate to his city of knowledge.",
+  hadith:"I am the city of knowledge and Ali is its gate.",hadithSrc:"Al-Mustadrak al-Hakim 4637",
+  acts:["Learn about the Companions ؓ","Study Islamic jurisprudence","Send Salawat on the Prophet ﷺ","Reflect on courage and justice"]},
+
+"7-27":{name:"Isra wal Miraj — Night Journey & Ascension",arabic:"الإسراء والمعراج",emoji:"🌠",
+  desc:"One of the greatest miracles of the Prophet ﷺ. In a single night, Allah transported him from Masjid al-Haram (Makkah) to Masjid al-Aqsa (Jerusalem) — the Isra. Then the Prophet ﷺ ascended through the seven heavens to meet Allah — the Miraj. The 5 daily prayers were made obligatory on this night, originally 50 but reduced to 5 through the intercession of Prophet Musa ﷺ. The Prophet ﷺ also saw Paradise, Hellfire, and met the previous Prophets.",
+  hadith:"Glory be to He who took His servant by night from Masjid al-Haram to Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed He is the All-Hearing, All-Seeing.",hadithSrc:"Quran 17:1",
+  acts:["Night prayers (Qiyam al-Layl)","Reflect on the importance of Salah","Read about the Mi'raj in detail","Extra Salawat on the Prophet ﷺ","Fast during the day"]},
+
+/* ====== SHA'BAN (Month 8) ====== */
+"8-1":{name:"Month of Sha'ban Begins",arabic:"دخول شهر شعبان",emoji:"🌙",
+  desc:"Sha'ban is the month directly before Ramadan. The Prophet ﷺ used to fast more in Sha'ban than any other month besides Ramadan. It is a time to prepare spiritually, physically and mentally for the blessed month of Ramadan. Deeds are presented to Allah on Mondays and Thursdays.",
+  hadith:"That is a month people neglect, between Rajab and Ramadan. It is a month in which deeds are raised to the Lord of the Worlds, and I like my deeds to be raised while I am fasting.",hadithSrc:"Sunan al-Nasa'i 2357",
+  acts:["Increase fasting (Sunnah of the Prophet ﷺ)","Recite Quran","Prepare for Ramadan","Pay off missed fasts","Give charity"]},
+
+"8-3":{name:"Birth of Imam Husayn ؓ",arabic:"ولادة الإمام الحسين ؓ",emoji:"🌹",
+  desc:"Husayn ibn Ali ؓ, the beloved grandson of Prophet Muhammad ﷺ, was born on the 3rd of Sha'ban. He is one of the leaders of the youth of Paradise and was deeply loved by the Prophet ﷺ. His martyrdom at Karbala stands as a symbol of sacrifice for truth and justice.",
+  hadith:"Husayn is from me and I am from Husayn. Allah loves whoever loves Husayn. Husayn is a sayyid (leader) from the sayyids (leaders).",hadithSrc:"Sunan Ibn Majah 144",
+  acts:["Send Salawat on the Prophet ﷺ","Learn about the Ahlul Bayt","Reflect on sacrifice for justice","Recite Quran"]},
+
+"8-15":{name:"Laylat al-Bara'ah — Night of Forgiveness",arabic:"ليلة البراءة / شبِ برات",emoji:"✨",
+  desc:"The 15th night of Sha'ban is known as Laylat al-Bara'ah (Night of Innocence/Forgiveness). Many scholars hold that Allah looks upon His creation this night with special mercy and forgives multitudes of people — except those who associate partners with Him or harbor malice against fellow Muslims. It is recommended to spend this night in worship.",
+  hadith:"Allah descends to the lowest heaven on the night of the 15th of Sha'ban and forgives more people than the hairs on the sheep of Banu Kalb.",hadithSrc:"Sunan Ibn Majah 1389",
+  acts:["Night prayers (Qiyam)","Seek forgiveness (Istighfar)","Fast on 15th Sha'ban","Recite Quran","Visit graves to make Dua","Reconcile with others"]},
+
+/* ====== RAMADAN (Month 9) ====== */
+"9-1":{name:"Ramadan Begins — Month of Fasting",arabic:"بداية رمضان المبارك",emoji:"🌙",
+  desc:"The blessed month of Ramadan commences — the month in which the Holy Quran was revealed as guidance for all humanity. Fasting in Ramadan is the Fourth Pillar of Islam. The Prophet ﷺ said the gates of Paradise are opened, the gates of Hell are closed, and the devils are chained. Every Muslim adult is obligated to fast from Fajr to Maghrib.",
+  hadith:"When Ramadan enters, the gates of Paradise are opened, the gates of Hellfire are closed, and the devils are chained.",hadithSrc:"Sahih Bukhari 1899",
+  acts:["Fasting (Sawm)","Taraweeh prayers","Increased Quran recitation","Charity (Sadaqah)","Reduce worldly distractions","Make abundant Dua"]},
+
+"9-2":{name:"Revelation: Changing of Qibla",arabic:"تحويل القبلة",emoji:"🕋",
+  desc:"In 2 AH during Ramadan, the Qibla (direction of prayer) was changed by Allah's command from Masjid al-Aqsa in Jerusalem to the Kaaba in Makkah. The Prophet ﷺ was in the middle of leading Dhuhr prayer when the revelation came. The congregation turned mid-prayer to face Makkah.",
+  hadith:"Indeed We see the turning of your face toward the heaven, and We will turn you toward a Qiblah with which you will be pleased. So turn your face toward Masjid al-Haram.",hadithSrc:"Quran 2:144",
+  acts:["Always pray facing the Kaaba","Learn about the significance of the Qibla","Dua toward Makkah"]},
+
+"9-10":{name:"Passing of Khadijah ؓ (Year of Grief)",arabic:"وفاة السيدة خديجة ؓ",emoji:"🌹",
+  desc:"Though Khadijah ؓ passed away in the 10th year before Hijra, her death — along with the death of Abu Talib — plunged the Prophet ﷺ into the 'Year of Grief' (Aam al-Huzn). She was the greatest woman of her time, the first Muslim, and the greatest supporter of the Prophet ﷺ.",
+  hadith:"By Allah, Allah never gave me a better wife than Khadijah. She believed in me when the people disbelieved, she trusted me when the people belied me, she supported me with her wealth when the people deprived me.",hadithSrc:"Musnad Ahmad 24864",
+  acts:["Remember the sacrifices for Islam","Value righteous spouses","Reflect on loyalty and support","Send Salawat on the Prophet ﷺ"]},
+
+"9-17":{name:"Battle of Badr — First Great Victory",arabic:"غزوة بدر الكبرى",emoji:"⚔️",
+  desc:"The Battle of Badr (17 Ramadan, 2 AH / 624 CE) was a decisive battle between 313 Muslims led by the Prophet ﷺ and approximately 1,000 Quraysh warriors. Despite being vastly outnumbered, the Muslims won a decisive victory with divine assistance — Allah sent thousands of angels to help the believers. Seventy Quraysh leaders were killed and seventy captured.",
+  hadith:"O Allah, if this small band perishes today, You will not be worshipped on earth. O Allah, fulfil what You have promised me. O Allah, bring victory.",hadithSrc:"Sahih Muslim 1763",
+  acts:["Fast (it is in Ramadan)","Reflect on Tawakkul in Allah","Study the Battle of Badr","Make Dua for strength of Iman","Increase Dhikr"]},
+
+"9-20":{name:"Conquest of Makkah",arabic:"فتح مكة المكرمة",emoji:"🕌",
+  desc:"The Conquest of Makkah (20 Ramadan, 8 AH / 630 CE) was one of the most momentous events in Islamic history. The Prophet ﷺ led an army of 10,000 Muslims into Makkah without significant bloodshed. Upon entering the Kaaba, he declared a general amnesty for the Makkans who had persecuted Muslims for years. He said: 'Today is a day of mercy.'",
+  hadith:"The Prophet ﷺ said on the day of the Conquest: 'O people of Quraysh! What do you think I will do with you?' They said: 'Good — you are a noble brother and the son of a noble brother.' He said: 'Go, for you are free.'",hadithSrc:"Sunan al-Bayhaqi 18052",
+  acts:["Fast (it is in Ramadan)","Reflect on mercy and forgiveness","Study Seerah — Conquest of Makkah","Make Tawafu in spirit by facing Makkah","Thank Allah for Islam"]},
+
+"9-21":{name:"Laylat al-Qadr — Begin searching",arabic:"ابدأ البحث عن ليلة القدر",emoji:"🌟",
+  desc:"The last 10 nights of Ramadan begin on the 21st. The Prophet ﷺ used to seclude himself in I'tikaf and intensify worship during these nights, especially seeking Laylat al-Qadr on the odd nights. The Night of Power is better than 1,000 months of worship.",
+  hadith:"Seek Laylat al-Qadr in the odd nights of the last ten days of Ramadan.",hadithSrc:"Sahih Bukhari 2017",
+  acts:["Begin I'tikaf if possible","Pray all night on odd nights (21,23,25,27,29)","Recite Dua: Allahumma innaka Afuwwun tuhibbul afwa fa'fu anni","Abundant Quran recitation","Give Sadaqah"]},
+
+"9-23":{name:"Laylat al-Qadr — 23rd Night",arabic:"ليلة القدر ٢٣",emoji:"🌟",
+  desc:"The 23rd night of Ramadan is one of the odd nights of the last 10 days. Many scholars identify this night as a likely candidate for Laylat al-Qadr. Worship on this single night is better than 1,000 months (over 83 years) of worship.",
+  hadith:"Whoever stands in prayer on Laylat al-Qadr out of faith and seeking reward, his previous sins will be forgiven.",hadithSrc:"Sahih Bukhari 1901",
+  acts:["All-night prayer","Recite Surah al-Qadr","Recite Dua for Laylat al-Qadr","Give charity","Seek abundant forgiveness"]},
+
+"9-25":{name:"Laylat al-Qadr — 25th Night",arabic:"ليلة القدر ٢٥",emoji:"🌟",
+  desc:"The 25th night of Ramadan — another of the blessed odd nights of the last 10 days. The Prophet ﷺ said to seek Laylat al-Qadr in the odd nights. Allah's mercy descends abundantly and the angels come down to earth on this night.",
+  hadith:"Verily this night has been mentioned to me (Laylat al-Qadr) and I was made to forget it, so seek it in the last ten (nights), in the odd ones.",hadithSrc:"Sahih Bukhari 2016",
+  acts:["All-night worship","Recite Quran extensively","Make Dua for yourself & all Muslims","Pray Tahajjud","Give Zakat/Sadaqah"]},
+
+"9-27":{name:"Laylat al-Qadr — 27th Night (Most Likely)",arabic:"ليلة القدر ٢٧",emoji:"💫",
+  desc:"The 27th night of Ramadan is considered by the majority of scholars to be the most likely night of Laylat al-Qadr (Night of Power). On this night, the first revelation of the Quran descended upon Prophet Muhammad ﷺ through Angel Jibreel ﷺ. Worship on this night equals over 83 years of worship.",
+  hadith:"The Night of Power is better than a thousand months. The angels and the Spirit descend therein by permission of their Lord for every matter. Peace it is until the emergence of dawn.",hadithSrc:"Quran 97:3-5",
+  acts:["All-night prayer — do not sleep!","Recite Dua: Allahumma innaka Afuwwun tuhibbul afwa fa'fu anni","Complete recitation of Quran","Give maximum Sadaqah","Pray all obligatory & voluntary prayers","Make Dua for all Muslims"]},
+
+"9-29":{name:"Laylat al-Qadr — 29th Night",arabic:"ليلة القدر ٢٩",emoji:"🌟",
+  desc:"The 29th night of Ramadan — the final odd night of the last 10 days. If the moon is sighted tomorrow, Ramadan will end and Eid al-Fitr begins. This is the last opportunity to seek Laylat al-Qadr this Ramadan. Pour your heart out in Dua and worship.",
+  hadith:"Seek Laylat al-Qadr in the odd nights of the last ten days of Ramadan.",hadithSrc:"Sahih Bukhari 2017",
+  acts:["Final night of seeking Laylat al-Qadr","Pay Zakat al-Fitr before Fajr","All-night prayer","Dua for all Muslims worldwide","Bid farewell to Ramadan with gratitude"]},
+
+/* ====== SHAWWAL (Month 10) ====== */
+"10-1":{name:"Eid al-Fitr — Festival of Breaking Fast",arabic:"عيد الفطر المبارك",emoji:"🎉",
+  desc:"Eid al-Fitr is one of the two great festivals of Islam, marking the end of Ramadan. The Prophet ﷺ said it is forbidden to fast on this day. Muslims pay Zakat al-Fitr before the Eid prayer, perform Ghusl, wear their best clothes, eat something sweet before the prayer, attend the Eid congregation, and greet one another with 'Eid Mubarak'. It is a day of joy, family, and gratitude to Allah.",
+  hadith:"The day of Eid al-Fitr and Eid al-Adha are days when Allah looks at you with mercy, so proclaim His glory and praise and show gratitude.",hadithSrc:"Al-Mu'jam al-Awsat, Tabarani",
+  acts:["Ghusl & wear best clothes","Eat before Eid prayer (Sunnah — dates preferably)","Pay Zakat al-Fitr","Attend Eid prayer","Congratulate others: Taqabbalallahu minna wa minkum","Visit family & give gifts","Give in charity to the poor"]},
+
+"10-2":{name:"Six Fasts of Shawwal Begin",arabic:"صيام الستة من شوال",emoji:"📿",
+  desc:"Fasting six days in the month of Shawwal after Ramadan earns the reward equivalent to fasting the entire year. These six fasts can be observed consecutively or separately throughout the month. They serve as a Sunnah way to maintain the spiritual momentum of Ramadan.",
+  hadith:"Whoever fasts Ramadan and follows it with six days of Shawwal, it will be as if he fasted the entire year.",hadithSrc:"Sahih Muslim 1164",
+  acts:["Fast 6 days in Shawwal","Can be fasted consecutively or spread out","Make up any missed Ramadan fasts first (according to some scholars)","Continue Quran recitation from Ramadan"]},
+
+"10-25":{name:"Battle of Uhud Remembered",arabic:"غزوة أحد",emoji:"⚔️",
+  desc:"The Battle of Uhud (7 Shawwal, 3 AH) was a critical battle in Islamic history. The Muslims initially had the upper hand but some archers left their positions against the Prophet's ﷺ command, leading to a reversal. Seventy companions were martyred including Hamza ibn Abd al-Muttalib ؓ, the Prophet's uncle. The Prophet ﷺ himself was wounded.",
+  hadith:"Hamza is the leader of the martyrs.",hadithSrc:"Mustadrak al-Hakim 4860",
+  acts:["Pray for the martyrs of Uhud","Study the lessons of Uhud — obedience to leadership","Reflect on consequences of disobedience","Strengthen resolve in following the Sunnah"]},
+
+/* ====== DHUL QA'DAH (Month 11) ====== */
+"11-1":{name:"Sacred Month of Dhul Qa'dah",arabic:"شهر ذو القعدة الحرام",emoji:"🕌",
+  desc:"Dhul Qa'dah is one of the four sacred months. The word 'Qa'dah' means 'sitting' — in pre-Islamic Arabia, warfare was forbidden and people would sit and rest. Pilgrims begin travelling toward Makkah for Hajj. This month is a time to prepare for Dhul Hijjah.",
+  hadith:"Indeed the number of months with Allah is twelve in Allah's Book from the day He created the heavens and earth; of these four are sacred.",hadithSrc:"Quran 9:36",
+  acts:["Prepare intention for Hajj","Give Sadaqah","Increase worship","Respect the sacred month","Make Dua"]},
+
+"11-25":{name:"Treaty of Hudaybiyyah",arabic:"صلح الحديبية",emoji:"📜",
+  desc:"The Treaty of Hudaybiyyah (6 AH) was signed between the Prophet ﷺ and the Quraysh of Makkah. Although it appeared unfavorable to Muslims at the time, Allah called it a 'manifest victory' (Fath Mubeen) in the Quran. Within two years, it led to the Conquest of Makkah.",
+  hadith:"Indeed We have granted you a clear victory (Fath Mubeen).",hadithSrc:"Quran 48:1",
+  acts:["Trust Allah's wisdom in difficult situations","Study the Seerah","Reflect that apparent loss can be real victory","Maintain patience (Sabr)"]},
+
+/* ====== DHUL HIJJAH (Month 12) ====== */
+"12-1":{name:"Blessed Days of Dhul Hijjah Begin",arabic:"أيام ذي الحجة المباركة",emoji:"🕋",
+  desc:"The first ten days of Dhul Hijjah are the most blessed days of the entire year — even more virtuous than the last ten nights of Ramadan according to some scholars. Righteous deeds during these days are more beloved to Allah than at any other time. It is highly recommended to fast these days (1–9), especially the 9th (Day of Arafah).",
+  hadith:"There are no days on which righteous deeds are more beloved to Allah than these ten days (of Dhul Hijjah). The companions asked: Not even jihad in the way of Allah? He said: Not even jihad in the way of Allah, except a man who goes out with his self and his wealth and returns with nothing.",hadithSrc:"Sahih Bukhari 969",
+  acts:["Fast the 10 days (especially 9th)","Abundant Dhikr: SubhanAllah, Alhamdulillah, Allahu Akbar, La ilaha illallah","Give Sadaqah","Recite Quran","Prepare for Qurbani","Make Dua for pilgrims"]},
+
+"12-8":{name:"Day of Tarwiyah — Hajj Begins",arabic:"يوم التروية",emoji:"🕌",
+  desc:"The 8th of Dhul Hijjah is the Day of Tarwiyah, when Hajj pilgrims put on their Ihram (sacred garments) and move from Makkah to Mina. The word 'Tarwiyah' comes from 'watering' — pilgrims would water their animals and carry water for the journey to Arafah. For non-pilgrims, fasting and increased worship is recommended.",
+  hadith:"There are no days more beloved to Allah for doing righteous deeds than the first ten days of Dhul Hijjah.",hadithSrc:"Sahih Bukhari 969",
+  acts:["Fast if not a pilgrim","Make Dua for the Hajj pilgrims","Recite Talbiyah: Labbayk Allahumma Labbayk","Extra Dhikr & Takbir","Give Sadaqah"]},
+
+"12-9":{name:"Day of Arafah — Greatest Day of the Year",arabic:"يوم عرفة",emoji:"⛰️",
+  desc:"The 9th of Dhul Hijjah is the Day of Arafah — the heart of Hajj and one of the greatest days Allah has created. Pilgrims stand on the plain of Arafah from Dhuhr to Maghrib making Dua. Allah descends (in a manner befitting His Majesty) and boasts about the pilgrims to the angels. For non-pilgrims, fasting on this day expiates two full years of minor sins.",
+  hadith:"There is no day on which Allah frees more people from the Fire than the Day of Arafah. He comes close and then boasts about them to the angels, saying: 'What do these people want?'",hadithSrc:"Sahih Muslim 1348",
+  acts:["FAST this day (expiates 2 years of sins)","Make abundant Dua (especially after Asr)","Recite: La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd wa huwa ala kulli shay'in qadir","Give Sadaqah","Watch Hajj broadcast if possible","Thank Allah for Islam"]},
+
+"12-10":{name:"Eid al-Adha — Festival of Sacrifice",arabic:"عيد الأضحى المبارك",emoji:"🐑",
+  desc:"Eid al-Adha commemorates the supreme test of Prophet Ibrahim ﷺ — his willingness to sacrifice his beloved son Ismail ﷺ in obedience to Allah. Allah replaced Ismail ﷺ with a ram at the last moment. Muslims who meet the nisab (minimum threshold) perform Qurbani (animal sacrifice) and distribute the meat in three equal parts: family, relatives/neighbours, and the poor. It is forbidden to fast on Eid day.",
+  hadith:"The greatest days in the sight of Allah are the Day of Sacrifice and then the day of al-Qarr (11th Dhul Hijjah).",hadithSrc:"Sunan Abu Dawud 1765",
+  acts:["Attend Eid prayer (Wajib/Sunnah)","Perform Qurbani if eligible","Distribute meat: 1/3 family, 1/3 relatives, 1/3 poor","Ghusl & wear best clothes","Eat nothing before Eid prayer (unlike Eid al-Fitr)","Say Takbir: Allahu Akbar Allahu Akbar La ilaha illallah...","Give gifts to children"]},
+
+"12-11":{name:"Ayyam al-Tashreeq — Day 1",arabic:"أيام التشريق — اليوم الأول",emoji:"🌅",
+  desc:"The 11th, 12th, and 13th of Dhul Hijjah are the Days of Tashreeq. The word Tashreeq means 'drying meat in the sun' — as pilgrims would dry their Qurbani meat. These are days of eating, drinking, and remembering Allah. Pilgrims perform the Rami (stoning of the Jamarat) in Mina. Fasting is FORBIDDEN on these days.",
+  hadith:"The days of Tashreeq are days of eating, drinking, and remembering Allah.",hadithSrc:"Sahih Muslim 1141",
+  acts:["Takbir after every Fard prayer (until 13th Asr)","Complete Qurbani meat distribution","Eat, drink & celebrate — fasting is forbidden","Remember Allah abundantly","Complete Hajj rites (for pilgrims in Mina)"]},
+
+"12-12":{name:"Ayyam al-Tashreeq — Day 2",arabic:"أيام التشريق — اليوم الثاني",emoji:"🌅",
+  desc:"The 12th of Dhul Hijjah — second of the Days of Tashreeq. Pilgrims continue the rites of Hajj in Mina (Rami al-Jamarat). Some pilgrims depart Mina today (Nafar Awwal — Early Departure) before sunset. The Takbir of Eid continues to be recited after every obligatory prayer.",
+  hadith:"And remember Allah during the appointed days. But whoever hastens (his departure) in two days — there is no sin upon him; and whoever delays — there is no sin upon him, for him who fears Allah.",hadithSrc:"Quran 2:203",
+  acts:["Continue Takbir","Complete distribution of Qurbani","Give remaining charity","Visit relatives","Remember Allah abundantly"]},
+
+"12-13":{name:"Ayyam al-Tashreeq — Final Day",arabic:"أيام التشريق — اليوم الأخير",emoji:"🌇",
+  desc:"The 13th of Dhul Hijjah is the final Day of Tashreeq and the last day of the blessed Eid season. Pilgrims must leave Mina before sunset (Nafar Thani — Late Departure). The Takbir of Eid concludes after Asr prayer today. The blessed season of Hajj and Eid comes to a close.",
+  hadith:"The days of Tashreeq are days of eating, drinking, and remembering Allah.",hadithSrc:"Sahih Muslim 1141",
+  acts:["Final Takbir after Asr prayer","Conclude Eid celebrations","Give remaining Sadaqah","Reflect on spiritual gains","Set goals for the rest of the year","Dua for acceptance of Hajj for the pilgrims"]},
+
+"12-18":{name:"Event of Ghadir Khumm",arabic:"يوم غدير خم",emoji:"🌟",
+  desc:"On the 18th of Dhul Hijjah (10 AH), during his return from the Farewell Pilgrimage, the Prophet ﷺ stopped at Ghadir Khumm and delivered a famous sermon. He took Ali ibn Abi Talib ؓ by the hand and declared his closeness to him. This event is significant across all Muslim traditions.",
+  hadith:"Whoever I am his Mawla (master/friend), Ali is also his Mawla. O Allah, be a friend to those who befriend him, and an enemy to those who are his enemies.",hadithSrc:"Sunan al-Tirmidhi 3713",
+  acts:["Send Salawat on the Prophet ﷺ","Love the Companions and the Ahlul Bayt","Reflect on Islamic unity","Recite Quran"]},
+
+"12-25":{name:"Farewell Pilgrimage Remembered",arabic:"حجة الوداع",emoji:"🕋",
+  desc:"The Farewell Pilgrimage (Hajjat al-Wada) of 10 AH was the only Hajj performed by Prophet Muhammad ﷺ. During this pilgrimage, he delivered the monumental Farewell Sermon (Khutbat al-Wada) on the plains of Arafah — establishing rights of humanity, equality, justice, and the finality of his prophethood. He declared Islam was complete.",
+  hadith:"Today I have perfected your religion for you, completed My favor upon you, and have chosen Islam as your religion.",hadithSrc:"Quran 5:3",
+  acts:["Study the Farewell Sermon","Reflect on the completion of Islam","Make intention for Hajj","Send Salawat on the Prophet ﷺ","Share Islamic knowledge"]},
+
+};
 // Special: Mark ALL of Ramadan (month 9) as special
 function getEventKey(month,day){return month+'-'+day;}
 
