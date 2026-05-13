@@ -183,6 +183,36 @@ footer{text-align:center;padding:2rem 1rem 1.5rem;border-top:1px solid var(--bor
 .footer-links a{color:var(--text-muted);font-size:.8rem;text-decoration:none;transition:.2s}
 .footer-links a:hover{color:var(--gold)}
 
+.cal-cell.islamic-event{background:rgba(201,168,76,0.13);border:1px solid rgba(201,168,76,0.45);cursor:pointer;position:relative;}
+.cal-cell.islamic-event:hover{background:rgba(201,168,76,0.22);transform:scale(1.06);z-index:2;}
+.cal-cell.islamic-event.ramadan-day{background:rgba(27,107,107,0.2);border-color:rgba(42,153,153,0.5);}
+.cal-cell.islamic-event.ramadan-day:hover{background:rgba(27,107,107,0.32);}
+.cal-cell.today.islamic-event{border-color:var(--gold);background:rgba(201,168,76,0.28);}
+.event-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);display:block;margin:2px auto 0;}
+.event-dot.teal{background:var(--teal-light);}
+
+/* EVENT MODAL */
+.event-modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(5,12,25,0.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+.event-modal-overlay.open{display:flex}
+.event-modal{background:var(--deep2);border:1px solid var(--border-gold);border-radius:20px;padding:2rem;width:min(480px,95vw);box-shadow:0 24px 64px rgba(0,0,0,.7);position:relative;max-height:85vh;overflow-y:auto;}
+.event-modal-close{position:absolute;top:1rem;right:1rem;background:rgba(201,168,76,0.1);border:1px solid var(--border-gold);color:var(--gold);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;}
+.event-modal-close:hover{background:var(--gold);color:var(--deep)}
+.event-emoji{font-size:3rem;display:block;text-align:center;margin-bottom:.75rem;}
+.event-modal-title{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--gold);text-align:center;margin-bottom:.2rem;}
+.event-modal-arabic{font-family:'Noto Naskh Arabic',serif;font-size:1.3rem;color:var(--gold-light);text-align:center;direction:rtl;margin-bottom:.3rem;}
+.event-modal-date{font-size:.8rem;color:var(--text-muted);text-align:center;margin-bottom:1.2rem;letter-spacing:.04em;}
+.event-modal-desc{font-size:.9rem;color:var(--text-light);line-height:1.75;margin-bottom:1rem;}
+.event-modal-hadith{background:rgba(201,168,76,0.07);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:.9rem 1rem;font-size:.85rem;color:var(--text-muted);font-style:italic;line-height:1.6;margin-bottom:1rem;}
+.event-modal-hadith strong{color:var(--gold-light);font-style:normal;display:block;margin-bottom:.3rem;}
+.event-modal-acts{margin-top:.75rem;}
+.event-modal-acts-title{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;}
+.act-chip{display:inline-block;background:rgba(201,168,76,0.1);border:1px solid var(--border-gold);border-radius:20px;padding:.25rem .75rem;font-size:.78rem;color:var(--text-muted);margin:.2rem;}
+
+/* Calendar legend update */
+.leg-dot.event{background:rgba(201,168,76,0.4);border:1px solid var(--gold);}
+.leg-dot.ramadan{background:rgba(27,107,107,0.4);border:1px solid var(--teal-light);}
+
+/* AZAN ALERT */
 /* AZAN ALERT */
 .azan-alert{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;background:var(--deep2);border:1px solid var(--gold);border-radius:14px;padding:1rem 1.3rem;box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:280px;display:none;animation:slideIn .4s ease;}
 @keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -384,7 +414,13 @@ footer{text-align:center;padding:2rem 1rem 1.5rem;border-top:1px solid var(--bor
       <div class="cal-legend">
         <span><span class="leg-dot" style="background:rgba(201,168,76,0.3);border:1px solid var(--gold)"></span> Today</span>
         <span><span class="leg-dot" style="background:rgba(201,168,76,0.08)"></span> Friday</span>
+        <span><span class="leg-dot event"></span> Islamic Event</span>
+        <span><span class="leg-dot ramadan"></span> Ramadan</span>
       </div>
+    </div>
+    <div class="card" style="margin-top:0">
+      <div class="card-title">🌙 Islamic Events This Month</div>
+      <div id="events-list-month"></div>
     </div>
     <div class="card">
       <div class="card-title">📅 Today's Date</div>
@@ -537,6 +573,26 @@ footer{text-align:center;padding:2rem 1rem 1.5rem;border-top:1px solid var(--bor
   </div>
 </div>
 
+<!-- EVENT MODAL -->
+<div class="event-modal-overlay" id="event-modal">
+  <div class="event-modal">
+    <button class="event-modal-close" onclick="closeEventModal()">✕</button>
+    <span class="event-emoji" id="ev-emoji">🌙</span>
+    <div class="event-modal-title" id="ev-title">Event</div>
+    <div class="event-modal-arabic" id="ev-arabic"></div>
+    <div class="event-modal-date" id="ev-date"></div>
+    <div class="event-modal-desc" id="ev-desc"></div>
+    <div class="event-modal-hadith" id="ev-hadith-wrap">
+      <strong id="ev-hadith-src"></strong>
+      <span id="ev-hadith"></span>
+    </div>
+    <div class="event-modal-acts" id="ev-acts-wrap">
+      <div class="event-modal-acts-title">Recommended Acts</div>
+      <div id="ev-acts"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ============ STATE ============
 let lat=26.85,lon=80.95,cityName='Lucknow, India';
@@ -563,6 +619,73 @@ const dhikrs=[
 ];
 
 // ============ HIJRI ============
+// ============ ISLAMIC EVENTS DATABASE ============
+const ISLAMIC_EVENTS={
+  "1-1":{name:"Islamic New Year",arabic:"رأس السنة الهجرية",emoji:"🌙",
+    desc:"The first day of Muharram marks the beginning of the Islamic Hijri calendar year. It commemorates the Hijra (migration) of Prophet Muhammad ﷺ from Makkah to Madinah in 622 CE, a pivotal moment that transformed the Muslim community.",
+    hadith:"The Prophet ﷺ said: 'The best fasting after Ramadan is fasting in Allah's month of Muharram.'",hadithSrc:"Sahih Muslim 1163",
+    acts:["Reflect on the past year","Set spiritual goals","Voluntary fasting","Extra Dhikr","Recite Dua for new year"]},
+  "1-9":{name:"Tasua",arabic:"تاسوعاء",emoji:"📿",
+    desc:"The 9th of Muharram, known as Tasua. The Prophet ﷺ intended to fast on this day along with Ashura to distinguish Muslim practice from that of others. It is highly recommended to fast on this day alongside Ashura.",
+    hadith:"The Prophet ﷺ said: 'If I live until next year, I will fast the 9th (of Muharram) as well.'",hadithSrc:"Sahih Muslim 1134",
+    acts:["Fast on this day","Combined fasting with Ashura (9th & 10th)","Extra prayers","Remembrance of Allah"]},
+  "1-10":{name:"Ashura",arabic:"عاشوراء",emoji:"⭐",
+    desc:"The 10th of Muharram is one of the most sacred days in the Islamic calendar. Allah saved Prophet Musa (Moses) ﷺ and the Children of Israel from Pharaoh on this day. Fasting on Ashura expiates the sins of the previous year.",
+    hadith:"The Prophet ﷺ said: 'Fasting on the day of Ashura, I hope that Allah will accept it as expiation for the year that went before.'",hadithSrc:"Sahih Muslim 1162",
+    acts:["Fast on this day","Fast on 9th also (Tasua)","Give in charity","Be generous to family","Extra prayers & Dhikr"]},
+  "3-12":{name:"Mawlid al-Nabi ﷺ",arabic:"المولد النبوي الشريف",emoji:"🌹",
+    desc:"The 12th of Rabi al-Awwal is widely observed as the birth anniversary of Prophet Muhammad ﷺ (born 570 CE). Muslims around the world mark this occasion by increasing blessings upon the Prophet ﷺ, gathering for lectures, and reflecting on his noble character and Sunnah.",
+    hadith:"The Prophet ﷺ said: 'None of you believes until I am more beloved to him than his father, his son, and all people.'",hadithSrc:"Sahih Bukhari 15",
+    acts:["Send abundant Salawat on the Prophet ﷺ","Read his biography (Seerah)","Follow his Sunnah","Gather for remembrance","Give in charity"]},
+  "7-27":{name:"Isra wal Miraj",arabic:"الإسراء والمعراج",emoji:"🌠",
+    desc:"The Night Journey and Ascension of Prophet Muhammad ﷺ. Allah took the Prophet ﷺ from Masjid al-Haram in Makkah to Masjid al-Aqsa in Jerusalem, and then ascended through the heavens. The 5 daily prayers were made obligatory on this miraculous night.",
+    hadith:"Glory be to He Who took His servant by night from Masjid al-Haram to Masjid al-Aqsa, whose surroundings We have blessed.",hadithSrc:"Quran 17:1",
+    acts:["Night prayers (Qiyam)","Reflect on the 5 daily prayers","Read about the Miraj","Extra Salawat on the Prophet ﷺ","Fast during the day"]},
+  "8-15":{name:"Shab e Barat",arabic:"شبِ برات",emoji:"✨",
+    desc:"The 15th night of Sha'ban is known as the Night of Forgiveness or Laylat al-Bara'ah. Many scholars hold that Allah's mercy descends abundantly on this night and sins are forgiven for those who sincerely seek repentance.",
+    hadith:"Allah descends to the lowest heaven on the 15th night of Sha'ban and forgives more people than the hairs on the sheep of Banu Kalb.",hadithSrc:"Sunan Ibn Majah 1389",
+    acts:["Night prayers & Tahajjud","Seek forgiveness (Istighfar)","Fast on 15th Sha'ban","Recite Quran","Visit graves to make dua"]},
+  "9-1":{name:"Ramadan Begins",arabic:"بداية رمضان",emoji:"🌙",
+    desc:"The blessed month of Ramadan commences — the month in which the Holy Quran was revealed. Muslims worldwide observe fasting from Fajr to Maghrib, intensify worship, recite Quran, and perform Taraweeh prayers throughout this month.",
+    hadith:"When Ramadan enters, the gates of Paradise are opened, the gates of Hellfire are closed, and the devils are chained.",hadithSrc:"Sahih Bukhari 1899",
+    acts:["Fasting (Sawm)","Taraweeh prayers","Increased Quran recitation","Charity (Sadaqah)","Laylat al-Qadr in last 10 nights","I'tikaf"]},
+  "9-27":{name:"Laylat al-Qadr",arabic:"ليلة القدر",emoji:"🌟",
+    desc:"The Night of Power (Laylat al-Qadr) is the most blessed night of the year, believed to fall on one of the odd nights of the last 10 days of Ramadan, most likely the 27th. Worship on this single night is better than 1,000 months of worship.",
+    hadith:"We have indeed revealed this in the Night of Power. And what will explain to you what the Night of Power is? The Night of Power is better than a thousand months.",hadithSrc:"Quran 97:1-3",
+    acts:["All-night prayer (Qiyam)","Recite Quran extensively","Make abundant Dua","Dua: Allahumma innaka Afuwwun tuhibbul afwa fa'fu anni","Seek forgiveness","Give charity"]},
+  "10-1":{name:"Eid al-Fitr",arabic:"عيد الفطر",emoji:"🎉",
+    desc:"The Festival of Breaking the Fast! Eid al-Fitr marks the end of Ramadan. Muslims celebrate with Eid prayers, pay Zakat al-Fitr before the prayer, visit family and friends, wear new clothes, and share joy and happiness together.",
+    hadith:"The Prophet ﷺ said: 'The day of Eid al-Fitr is the day when you break your fast. Your Eid al-Adha is the day you offer your sacrifice.'",hadithSrc:"Sunan al-Tirmidhi 802",
+    acts:["Ghusl & wear best clothes","Pay Zakat al-Fitr before prayer","Attend Eid prayer","Eat before going to prayer","Congratulate others","Visit family","Give gifts to children"]},
+  "12-8":{name:"Day of Tarwiyah",arabic:"يوم التروية",emoji:"🕋",
+    desc:"The 8th of Dhul Hijjah is the Day of Tarwiyah, when Hajj pilgrims move from Makkah to Mina to begin the rites of Hajj. For non-pilgrims, fasting during the first 9 days of Dhul Hijjah is highly recommended.",
+    hadith:"The Prophet ﷺ said: 'There are no days on which righteous deeds are more beloved to Allah than these ten days (of Dhul Hijjah).'",hadithSrc:"Sahih Bukhari 969",
+    acts:["Fast if possible (non-pilgrims)","Extra Dhikr & Takbir","Give charity","Prepare for Eid al-Adha","Remember the pilgrims in Dua"]},
+  "12-9":{name:"Day of Arafah",arabic:"يوم عرفة",emoji:"⛰️",
+    desc:"The 9th of Dhul Hijjah — the most important day of Hajj and one of the greatest days of the Islamic year. Pilgrims stand on the plain of Arafah in supplication. Fasting on this day for non-pilgrims expiates two years of sins.",
+    hadith:"Fasting on the Day of Arafah I hope that Allah will accept it as expiation for the year that went before and the year that comes after.",hadithSrc:"Sahih Muslim 1162",
+    acts:["Fast (highly recommended for non-pilgrims)","Make abundant Dua","Dua: La ilaha illallah wahdahu la sharika lah","Dhikr & Takbir","Seek forgiveness"]},
+  "12-10":{name:"Eid al-Adha",arabic:"عيد الأضحى",emoji:"🐑",
+    desc:"The Festival of Sacrifice commemorates Prophet Ibrahim's ﷺ willingness to sacrifice his son Ismail ﷺ as an act of obedience to Allah. Muslims who can afford it perform Qurbani (sacrifice of an animal) and distribute the meat to family, neighbours, and the poor.",
+    hadith:"The Prophet ﷺ said: 'The greatest day in the sight of Allah is the Day of Sacrifice, then the day of al-Qarr (11th Dhul Hijjah).'",hadithSrc:"Sunan Abu Dawud 1765",
+    acts:["Attend Eid prayer","Perform Qurbani","Distribute meat to poor","Wear best clothes","Congratulate others","Visit relatives","Takbir: Allahu Akbar Allahu Akbar..."]},
+  "12-11":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
+    desc:"The 11th, 12th, and 13th of Dhul Hijjah are the Days of Tashreeq. These are days of eating, drinking, and remembering Allah. Pilgrims continue the rites of Hajj in Mina. Takbir is recited abundantly during these days.",
+    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
+    acts:["Recite Takbir abundantly","Complete Qurbani distribution","Eat & celebrate (fasting is forbidden)","Remember Allah","Complete Hajj rites (pilgrims)"]},
+  "12-12":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
+    desc:"Second of the Days of Tashreeq. These blessed days follow Eid al-Adha and are a continuation of the celebration while remembering Allah abundantly.",
+    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
+    acts:["Recite Takbir","Continue charity","Remember Allah","Complete Hajj rites (pilgrims)"]},
+  "12-13":{name:"Ayyam al-Tashreeq",arabic:"أيام التشريق",emoji:"🌅",
+    desc:"Third and final Day of Tashreeq. The blessed days of Eid al-Adha conclude. Pilgrims complete the final rites of Hajj.",
+    hadith:"The days of Tashreeq are days of eating, drinking, and remembrance of Allah.",hadithSrc:"Sahih Muslim 1141",
+    acts:["Final Takbir of Eid season","Give remaining Qurbani","Make Dua","Reflect on spiritual growth"]},
+};
+
+// Special: Mark ALL of Ramadan (month 9) as special
+function getEventKey(month,day){return month+'-'+day;}
+
 const hijriMonths=['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhirah','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhul Qa'dah","Dhul Hijjah"];
 const hijriMonthsAr=['محرّم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
 const gregMonths=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -644,7 +767,6 @@ function renderHijriCalendar(){
     title.textContent=hijriMonths[calHijriMonth-1]+' '+calHijriYear+' AH';
     titleAr.textContent=hijriMonthsAr[calHijriMonth-1]+' '+toArabicNumerals(calHijriYear)+' هـ';
   }
-  // Hijri months alternate 30/29 days
   const daysInMonth=(calHijriMonth%2===1)||calHijriMonth===12?30:29;
   const firstGreg=hijriToGreg(calHijriYear,calHijriMonth,1);
   const lastGreg=hijriToGreg(calHijriYear,calHijriMonth,daysInMonth);
@@ -660,11 +782,50 @@ function renderHijriCalendar(){
     const isToday=d===todayH.day&&calHijriMonth===todayH.month&&calHijriYear===todayH.year;
     const isFri=gDate.getDay()===5;
     const gregStr=gDate.getDate()+'/'+(gDate.getMonth()+1);
-    html+=`<div class="cal-cell${isToday?' today':isFri?' friday':''}">
-      ${toArabicNumerals(d)}<span class="cal-greg">${gregStr}</span>
+    const evKey=getEventKey(calHijriMonth,d);
+    const isRamadan=calHijriMonth===9;
+    const hasEvent=!!ISLAMIC_EVENTS[evKey];
+    let classes='cal-cell';
+    if(isToday)classes+=' today';
+    else if(isFri)classes+=' friday';
+    if(hasEvent)classes+=' islamic-event';
+    if(isRamadan&&!hasEvent)classes+=' islamic-event ramadan-day';
+    const dotColor=isRamadan&&!hasEvent?'teal':'';    const clickAttr=(hasEvent||isRamadan)?`onclick="openEventModal(${calHijriMonth},${d})"`:'';
+    const dot=(hasEvent||isRamadan)?`<span class="event-dot ${dotColor}"></span>`:'';
+    const evEmoji=hasEvent?(ISLAMIC_EVENTS[evKey].emoji+' '):isRamadan?'🌙 ':'';
+    html+=`<div class="${classes}" ${clickAttr} title="${hasEvent?ISLAMIC_EVENTS[evKey].name:isRamadan?'Ramadan '+d:''}">
+      <span style="font-size:.6rem">${evEmoji}</span>${toArabicNumerals(d)}<span class="cal-greg">${gregStr}</span>${dot}
     </div>`;
   }
   grid.innerHTML=html;
+  renderEventsList();
+}
+
+function renderEventsList(){
+  const container=document.getElementById('events-list-month');
+  if(!container)return;
+  const daysInMonth=(calHijriMonth%2===1)||calHijriMonth===12?30:29;
+  let eventsThisMonth=[];
+  for(let d=1;d<=daysInMonth;d++){
+    const key=getEventKey(calHijriMonth,d);
+    if(ISLAMIC_EVENTS[key])eventsThisMonth.push({day:d,...ISLAMIC_EVENTS[key]});
+  }
+  if(calHijriMonth===9){
+    eventsThisMonth.unshift({day:1,name:'Ramadan — Blessed Month of Fasting',arabic:'رمضان الكريم',emoji:'🌙'});
+  }
+  if(!eventsThisMonth.length){
+    container.innerHTML='<div style="color:var(--text-muted);font-size:.85rem;text-align:center;padding:.75rem">No major events this month</div>';
+    return;
+  }
+  container.innerHTML=eventsThisMonth.map(ev=>`
+    <div onclick="openEventModal(${calHijriMonth},${ev.day})" style="display:flex;align-items:center;gap:.75rem;background:rgba(201,168,76,0.06);border:1px solid var(--border-gold);border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:.2s;margin-bottom:.5rem" onmouseover="this.style.background='rgba(201,168,76,0.12)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'">
+      <span style="font-size:1.5rem">${ev.emoji}</span>
+      <div style="flex:1">
+        <div style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold)">${ev.name}</div>
+        <div style="font-family:'Noto Naskh Arabic',serif;font-size:.85rem;color:var(--text-muted);direction:rtl">${ev.arabic}</div>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold-light)">${toArabicNumerals(ev.day)}</div>
+    </div>`).join('');
 }
 
 // ============ PRAYER CALC ============
@@ -1165,6 +1326,42 @@ function updateNavUser(){
 }
 function logout(){currentUser=null;localStorage.removeItem('noor_user');document.getElementById('nav-auth').innerHTML='<button class="reg-btn" onclick="openModal(\'register\')">Create Account</button>'}
 document.getElementById('auth-modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+function openEventModal(month,day){
+  const key=getEventKey(month,day);
+  const ev=ISLAMIC_EVENTS[key];
+  const isRamadan=month===9&&!ev;
+  const data=ev||(isRamadan?{
+    name:'Ramadan — Day '+day,
+    arabic:'رمضان الكريم يوم '+toArabicNumerals(day),
+    emoji:'🌙',
+    desc:'Day '+day+' of the blessed month of Ramadan. Allah has made fasting this month obligatory upon every adult Muslim. The gates of Paradise are open, the gates of Hell are closed, and the devils are chained throughout this month.',
+    hadith:'When Ramadan enters, the gates of Paradise are opened, the gates of Hellfire are closed, and the devils are chained. And a caller calls: O seeker of good, come forward; O seeker of evil, stop.',
+    hadithSrc:'Sunan al-Tirmidhi 682',
+    acts:['Fasting (Sawm) from Fajr to Maghrib','Taraweeh prayer at night','Recite Quran','Give Sadaqah','Make Dua at Iftar time','Seek Laylat al-Qadr in last 10 nights']
+  }:null);
+  if(!data)return;
+  const gDate=hijriToGreg(month,day,month===9?1:day);
+  // Corrected: use actual day
+  const gDateActual=hijriToGreg(calHijriYear,month,day);
+  const gregStr=gDateActual.toLocaleDateString('en',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('ev-emoji').textContent=data.emoji;
+  document.getElementById('ev-title').textContent=data.name;
+  document.getElementById('ev-arabic').textContent=data.arabic;
+  document.getElementById('ev-date').textContent=hijriMonths[month-1]+' '+day+', '+calHijriYear+' AH  ·  '+gregStr;
+  document.getElementById('ev-desc').textContent=data.desc;
+  document.getElementById('ev-hadith').textContent=data.hadith;
+  document.getElementById('ev-hadith-src').textContent=data.hadithSrc;
+  const actsEl=document.getElementById('ev-acts');
+  actsEl.innerHTML=(data.acts||[]).map(a=>`<span class="act-chip">✦ ${a}</span>`).join('');
+  document.getElementById('event-modal').classList.add('open');
+}
+function closeEventModal(){
+  document.getElementById('event-modal').classList.remove('open');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('event-modal').addEventListener('click',function(e){if(e.target===this)closeEventModal()});
+});
 
 function requestCompassPermission(){
   if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
