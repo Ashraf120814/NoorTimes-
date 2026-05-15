@@ -513,22 +513,88 @@ footer{text-align:center;padding:2rem 1rem 1.5rem;border-top:1px solid var(--bor
 
   <!-- ===== QIBLA ===== -->
   <div class="section-panel" id="panel-qibla">
-    <div class="card" style="max-width:440px;margin:0 auto;text-align:center">
+    <div class="card" style="max-width:480px;margin:0 auto;text-align:center">
       <div class="card-title">🕋 Qibla Direction</div>
-      <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:.75rem">The direction of the Kaaba in Makkah al-Mukarramah</p>
-      <div style="font-size:.75rem;color:var(--teal-light);background:rgba(27,107,107,0.1);border:1px solid rgba(42,153,153,0.2);border-radius:8px;padding:.5rem .75rem;margin-bottom:1rem">
-        🧭 On mobile: allow device motion for a live rotating compass
-        <button id="compass-perm-btn" onclick="requestCompassPermission()" style="margin-left:.5rem;background:var(--teal);color:#fff;border:none;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer">Enable</button>
+      <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Direction of the Kaaba in Makkah al-Mukarramah from your location</p>
+
+      <!-- SVG Compass — always visible, no canvas issues -->
+      <div style="position:relative;width:260px;height:260px;margin:0 auto">
+        <!-- Outer decorative ring (static) -->
+        <svg width="260" height="260" style="position:absolute;top:0;left:0" id="compass-ring-svg">
+          <circle cx="130" cy="130" r="126" fill="rgba(10,22,40,0.95)" stroke="rgba(201,168,76,0.5)" stroke-width="2"/>
+          <circle cx="130" cy="130" r="108" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+          <!-- Tick marks -->
+          <g id="compass-ticks"></g>
+          <!-- Cardinal + intercardinal labels -->
+          <text x="130" y="22"  text-anchor="middle" font-family="Cinzel,serif" font-size="15" font-weight="bold" fill="#E8C97A">N</text>
+          <text x="238" y="135" text-anchor="middle" font-family="Cinzel,serif" font-size="13" fill="rgba(240,232,208,0.6)">E</text>
+          <text x="130" y="248" text-anchor="middle" font-family="Cinzel,serif" font-size="13" fill="rgba(240,232,208,0.6)">S</text>
+          <text x="22"  y="135" text-anchor="middle" font-family="Cinzel,serif" font-size="13" fill="rgba(240,232,208,0.6)">W</text>
+          <!-- NE NW SE SW -->
+          <text x="207" y="57"  text-anchor="middle" font-family="Cinzel,serif" font-size="10" fill="rgba(201,168,76,0.4)">NE</text>
+          <text x="207" y="210" text-anchor="middle" font-family="Cinzel,serif" font-size="10" fill="rgba(201,168,76,0.4)">SE</text>
+          <text x="53"  y="210" text-anchor="middle" font-family="Cinzel,serif" font-size="10" fill="rgba(201,168,76,0.4)">SW</text>
+          <text x="53"  y="57"  text-anchor="middle" font-family="Cinzel,serif" font-size="10" fill="rgba(201,168,76,0.4)">NW</text>
+          <!-- Degree markers every 30° -->
+          <text x="130" y="42"  text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">0°</text>
+          <text x="212" y="80"  text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">60°</text>
+          <text x="222" y="185" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">120°</text>
+          <text x="130" y="220" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">180°</text>
+          <text x="40"  y="185" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">240°</text>
+          <text x="40"  y="80"  text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(201,168,76,0.3)">300°</text>
+        </svg>
+
+        <!-- Rotating arrow group — only this rotates -->
+        <svg width="260" height="260" style="position:absolute;top:0;left:0;transition:transform 0.5s ease">
+          <defs>
+            <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#E8C97A"/>
+              <stop offset="100%" style="stop-color:#9B7A2F"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Arrow pointing UP = toward Qibla; rotated by JS -->
+          <g id="qibla-arrow-group" transform="rotate(0,130,130)">
+            <!-- Main arrow pointing up (toward Qibla) -->
+            <polygon points="130,38 122,110 130,100 138,110" fill="url(#arrowGrad)" filter="url(#glow)"/>
+            <!-- Tail arrow pointing down (opposite) -->
+            <polygon points="130,222 122,150 130,160 138,150" fill="rgba(201,168,76,0.25)"/>
+            <!-- Shaft line -->
+            <line x1="130" y1="105" x2="130" y2="155" stroke="rgba(201,168,76,0.4)" stroke-width="2"/>
+          </g>
+          <!-- Center Kaaba circle -->
+          <circle cx="130" cy="130" r="18" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+          <text x="130" y="135" text-anchor="middle" font-size="18">🕋</text>
+        </svg>
       </div>
-      <canvas id="qibla-compass-full" width="220" height="220" style="display:block;margin:0 auto"></canvas>
-      <div style="margin-top:1rem">
-        <div style="font-family:'Cinzel',serif;font-size:2rem;color:var(--gold)" id="qibla-deg-full">---°</div>
-        <div style="font-size:.85rem;color:var(--text-muted);margin-top:.3rem">from North (clockwise)</div>
-        <div style="font-size:.85rem;color:var(--text-muted);margin-top:.3rem" id="qibla-dist-full"></div>
+
+      <!-- Qibla info -->
+      <div style="margin-top:1.2rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap">
+        <div style="background:rgba(201,168,76,0.08);border:1px solid var(--border-gold);border-radius:12px;padding:.75rem 1.2rem">
+          <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase">Qibla Direction</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.8rem;color:var(--gold);line-height:1.1" id="qibla-deg-full">---°</div>
+          <div style="font-size:.72rem;color:var(--text-muted)">from North</div>
+        </div>
+        <div style="background:rgba(201,168,76,0.08);border:1px solid var(--border-gold);border-radius:12px;padding:.75rem 1.2rem">
+          <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase">Distance</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.8rem;color:var(--gold);line-height:1.1" id="qibla-dist-num">---</div>
+          <div style="font-size:.72rem;color:var(--text-muted)">km to Makkah</div>
+        </div>
       </div>
+
+      <!-- Device compass status -->
+      <div style="margin-top:.9rem;font-size:.78rem;padding:.5rem .9rem;background:rgba(27,107,107,0.1);border:1px solid rgba(42,153,153,0.2);border-radius:8px;display:flex;align-items:center;gap:.5rem;justify-content:center">
+        <span id="compass-status-icon">🧭</span>
+        <span id="compass-status-text" style="color:var(--text-muted)">Static Qibla direction shown. Enable live compass for device rotation.</span>
+        <button id="compass-perm-btn" onclick="requestCompassPermission()" style="background:var(--teal);color:#fff;border:none;border-radius:6px;padding:.25rem .65rem;font-size:.72rem;cursor:pointer;flex-shrink:0">Enable</button>
+      </div>
+
       <div class="ornament" style="margin-top:1rem">✦ ✦ ✦</div>
-      <div style="font-family:'Noto Naskh Arabic',serif;font-size:1.2rem;color:var(--gold-light);direction:rtl;margin-top:.5rem">وَحَيْثُ مَا كُنتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ</div>
-      <div style="font-size:.78rem;color:var(--text-muted);margin-top:.3rem">"Wherever you are, turn your faces toward it" — Quran 2:150</div>
+      <div style="font-family:'Noto Naskh Arabic',serif;font-size:1.1rem;color:var(--gold-light);direction:rtl;margin-top:.4rem">وَحَيْثُ مَا كُنتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ</div>
+      <div style="font-size:.78rem;color:var(--text-muted);margin-top:.2rem">"Wherever you are, turn your faces toward it" — Quran 2:150</div>
     </div>
   </div>
 
@@ -1254,133 +1320,85 @@ function haversine(lt1,ln1,lt2,ln2){
   const a=Math.sin(dLat/2)**2+Math.cos(toRad(lt1))*Math.cos(toRad(lt2))*Math.sin(dLon/2)**2;
   return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
-let deviceHeading=null;
+let deviceHeading = null;
+let currentQiblaDeg = 0;
 
-function drawQiblaCanvas(id,deg,size){
-  const c=document.getElementById(id);
-  if(!c)return;
-  // Force canvas to correct pixel dimensions
-  if(c.width!==size)c.width=size;
-  if(c.height!==size)c.height=size;
-  const ctx=c.getContext('2d');
-  const cx=size/2,cy=size/2,r=size/2-10;
-  ctx.clearRect(0,0,size,size);
+// ── Draw: just rotate the SVG arrow group, no canvas needed ──
+function rotateQiblaArrow(qiblaDeg) {
+  currentQiblaDeg = qiblaDeg;
+  const heading = deviceHeading || 0;
+  // Arrow needs to point toward Qibla relative to device orientation
+  const arrowRotation = qiblaDeg - heading;
 
-  // Rotate whole compass by device heading so N always points to real North
-  const heading=deviceHeading||0;
-  ctx.save();
-  ctx.translate(cx,cy);
-  ctx.rotate(toRad(-heading));
-  ctx.translate(-cx,-cy);
-
-  // Outer ring gradient
-  const grad=ctx.createRadialGradient(cx,cy,r-4,cx,cy,r);
-  grad.addColorStop(0,'rgba(201,168,76,0.15)');
-  grad.addColorStop(1,'rgba(201,168,76,0.35)');
-  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
-  ctx.strokeStyle=grad;ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='rgba(10,22,40,0.92)';ctx.fill();
-
-  // Inner subtle circle
-  ctx.beginPath();ctx.arc(cx,cy,r*0.72,0,2*Math.PI);
-  ctx.strokeStyle='rgba(201,168,76,0.1)';ctx.lineWidth=1;ctx.stroke();
-
-  // Tick marks
-  for(let i=0;i<360;i+=10){
-    const a=toRad(i-90);
-    const isMajor=i%90===0,isMed=i%45===0;
-    const len=isMajor?12:isMed?8:4;
-    const w=isMajor?2:1;
-    ctx.beginPath();
-    ctx.moveTo(cx+(r-len)*Math.cos(a),cy+(r-len)*Math.sin(a));
-    ctx.lineTo(cx+(r-1)*Math.cos(a),cy+(r-1)*Math.sin(a));
-    ctx.strokeStyle=isMajor?'rgba(201,168,76,0.8)':'rgba(201,168,76,0.25)';
-    ctx.lineWidth=w;ctx.stroke();
+  // Full compass page
+  const arrowGroup = document.getElementById('qibla-arrow-group');
+  if (arrowGroup) {
+    arrowGroup.setAttribute('transform', `rotate(${arrowRotation},130,130)`);
   }
-
-  // Cardinal letters
-  ['N','E','S','W'].forEach((d,i)=>{
-    const a=toRad(i*90-90);
-    const fs=size>150?14:11;
-    ctx.fillStyle=d==='N'?'#E8C97A':'rgba(240,232,208,0.7)';
-    ctx.font='bold '+fs+'px Cinzel,serif';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(d,cx+(r-20)*Math.cos(a),cy+(r-20)*Math.sin(a));
-  });
-
-  ctx.restore(); // unrotate before drawing arrow (arrow points to Qibla, not N)
-
-  // Qibla arrow - points toward Makkah
-  const arrowAngle=toRad(deg-90);
-  const arrowLen=r*0.58;
-
-  // Arrow shadow
-  ctx.save();
-  ctx.shadowColor='rgba(201,168,76,0.5)';
-  ctx.shadowBlur=8;
-
-  // Arrow head
-  ctx.beginPath();
-  ctx.moveTo(cx+arrowLen*Math.cos(arrowAngle), cy+arrowLen*Math.sin(arrowAngle));
-  ctx.lineTo(cx+(arrowLen*0.25)*Math.cos(arrowAngle+2.4), cy+(arrowLen*0.25)*Math.sin(arrowAngle+2.4));
-  ctx.lineTo(cx+(arrowLen*0.15)*Math.cos(arrowAngle), cy+(arrowLen*0.15)*Math.sin(arrowAngle));
-  ctx.lineTo(cx+(arrowLen*0.25)*Math.cos(arrowAngle-2.4), cy+(arrowLen*0.25)*Math.sin(arrowAngle-2.4));
-  ctx.closePath();
-  ctx.fillStyle='#C9A84C';ctx.fill();
-
-  // Arrow shaft
-  ctx.beginPath();
-  ctx.moveTo(cx+(arrowLen*0.18)*Math.cos(arrowAngle), cy+(arrowLen*0.18)*Math.sin(arrowAngle));
-  ctx.lineTo(cx+(arrowLen*0.58)*Math.cos(arrowAngle+Math.PI), cy+(arrowLen*0.58)*Math.sin(arrowAngle+Math.PI));
-  ctx.strokeStyle='rgba(201,168,76,0.5)';ctx.lineWidth=size>150?2.5:1.5;ctx.stroke();
-  ctx.restore();
-
-  // Centre dot with kaaba emoji
-  ctx.beginPath();ctx.arc(cx,cy,size>150?11:8,0,2*Math.PI);
-  ctx.fillStyle='#0A1628';ctx.fill();
-  ctx.strokeStyle='#C9A84C';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.font=(size>150?'13px':'10px')+' serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('🕋',cx,cy);
+  // Also rotate the outer ring opposite direction so N stays at top relative to world
+  const ringSvgChildren = document.querySelectorAll('#compass-ring-svg text, #compass-ring-svg g');
+  // For home mini compass
+  const homeArrow = document.getElementById('home-arrow-group');
+  if (homeArrow) {
+    homeArrow.setAttribute('transform', `rotate(${arrowRotation},75,75)`);
+  }
 }
 
-function startDeviceCompass(){
-  if(window.DeviceOrientationEvent){
-    const handler=function(e){
-      if(e.webkitCompassHeading!=null){
-        deviceHeading=e.webkitCompassHeading; // iOS
-      } else if(e.alpha!=null){
-        deviceHeading=(360-e.alpha)%360; // Android
-      }
-      const qd=calcQibla(lat,lon);
-      drawQiblaCanvas('qibla-compass-home',qd,140);
-      drawQiblaCanvas('qibla-compass-full',qd,220);
-    };
-    if(typeof DeviceOrientationEvent.requestPermission==='function'){
-      // iOS 13+ requires permission
-      document.getElementById('compass-perm-btn')&&document.getElementById('compass-perm-btn').addEventListener('click',function(){
-        DeviceOrientationEvent.requestPermission().then(r=>{
-          if(r==='granted')window.addEventListener('deviceorientation',handler,true);
-        });
-      });
-    } else {
-      window.addEventListener('deviceorientation',handler,true);
+function startDeviceCompass() {
+  if (!window.DeviceOrientationEvent) return;
+
+  function handleOrientation(e) {
+    let heading = null;
+    if (e.webkitCompassHeading != null && e.webkitCompassHeading !== 0) {
+      heading = e.webkitCompassHeading; // iOS — most reliable
+    } else if (e.alpha != null) {
+      heading = (360 - e.alpha) % 360; // Android
     }
+    if (heading === null) return;
+    deviceHeading = heading;
+    rotateQiblaArrow(currentQiblaDeg);
+
+    // Update status
+    const statusEl = document.getElementById('compass-status-text');
+    if (statusEl) {
+      statusEl.textContent = `Live compass active — Heading: ${Math.round(heading)}°`;
+      statusEl.style.color = 'var(--teal-light)';
+    }
+    const iconEl = document.getElementById('compass-status-icon');
+    if (iconEl) iconEl.textContent = '✅';
+  }
+
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // iOS 13+ — must be triggered by user gesture (handled by button)
+    window._orientationHandler = handleOrientation;
+  } else {
+    // Android / desktop — no permission needed
+    window.addEventListener('deviceorientation', handleOrientation, true);
+    const btn = document.getElementById('compass-perm-btn');
+    if (btn) { btn.textContent = 'Active ✓'; btn.style.background = 'var(--green)'; }
   }
 }
+
+
 function updateQibla(){
-  const qd=calcQibla(lat,lon);
-  ['home','full'].forEach(sfx=>{
-    const el=document.getElementById('qibla-deg-'+sfx);
-    if(el)el.textContent=Math.round(qd)+'°';
+  const qd = calcQibla(lat, lon);
+
+  // Update degree displays
+  ['home','full'].forEach(sfx => {
+    const el = document.getElementById('qibla-deg-' + sfx);
+    if (el) el.textContent = Math.round(qd) + '°';
   });
-  const dist=document.getElementById('qibla-dist-full');
-  if(dist)dist.textContent='Distance to Makkah: ~'+Math.round(haversine(lat,lon,21.4225,39.8262))+' km';
-  // Use rAF to ensure canvas is in DOM and visible before drawing
-  requestAnimationFrame(()=>{
-    drawQiblaCanvas('qibla-compass-home',qd,140);
-    drawQiblaCanvas('qibla-compass-full',qd,220);
-  });
+
+  // Distance
+  const distNum = document.getElementById('qibla-dist-num');
+  if (distNum) distNum.textContent = Math.round(haversine(lat, lon, 21.4225, 39.8262)).toLocaleString();
+
+  // Home city hint
+  const cityHome = document.getElementById('qibla-city-home');
+  if (cityHome) cityHome.textContent = 'from ' + cityName;
+
+  // Rotate arrow — SVG, always works, no canvas issues
+  rotateQiblaArrow(qd);
 }
 
 // ============ LOCATION ============
@@ -1413,7 +1431,7 @@ function showSection(id){
   document.getElementById('panel-'+id).classList.add('active');
   const idx=['home','prayer','calendar','nafil','ramadan','qibla'].indexOf(id);
   document.querySelectorAll('.stab')[idx].classList.add('active');
-  if(id==='qibla')setTimeout(()=>updateQibla(),80);
+  if(id==='qibla'){updateQibla();setTimeout(()=>updateQibla(),300);}
   if(id==='calendar')renderHijriCalendar();
 }
 
@@ -1531,18 +1549,18 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 function requestCompassPermission(){
-  if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
-    DeviceOrientationEvent.requestPermission().then(r=>{
-      if(r==='granted'){
-        startDeviceCompass();
-        const btn=document.getElementById('compass-perm-btn');
-        if(btn){btn.textContent='Active ✓';btn.style.background='var(--green)'}
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(r => {
+      if (r === 'granted' && window._orientationHandler) {
+        window.addEventListener('deviceorientation', window._orientationHandler, true);
+        const btn = document.getElementById('compass-perm-btn');
+        if (btn) { btn.textContent = 'Active ✓'; btn.style.background = 'var(--green)'; }
       }
     }).catch(console.error);
   } else {
-    startDeviceCompass();
-    const btn=document.getElementById('compass-perm-btn');
-    if(btn){btn.textContent='Active ✓';btn.style.background='var(--green)'}
+    // Already started in startDeviceCompass for non-iOS
+    const btn = document.getElementById('compass-perm-btn');
+    if (btn) { btn.textContent = 'Active ✓'; btn.style.background = 'var(--green)'; }
   }
 }
 
